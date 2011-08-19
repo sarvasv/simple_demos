@@ -6,6 +6,9 @@ class WelcomeController < ApplicationController
   DEMOS = (1..3)
   
   def index
+    # 
+    #  Fri Aug 19 23:47:25 IST 2011, ramonrails
+    #   * fetch the range in the view > dynamically create list of demos
     @demos = DEMOS
   end
 

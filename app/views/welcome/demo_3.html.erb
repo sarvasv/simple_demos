@@ -1,5 +1,17 @@
 <h1>Solution 03</h1>
-<p>Dropdown to show or hide a field. Only when checkbox is NOT checked</p>
+<ul>
+  <li>Number field to dynamically add rows</li>
+  <li>number of rows are decided by value of text field</li>
+  <li>each row only gets a static field</li>
+  <li>when 'show' is selected in drop down, a dynamic field adds to each row</li>
+</ul>
+
+<h2>How to test</h2>
+<ul>
+  <li>Type a numeric value in text field > press tab => you will see that many rows</li>
+  <li>change dropdown to 'show' => you will see another field adjacent to existing one for each row</li>
+  <li>change the numeric value => number of rows will match numeric value</li>
+</ul>
 
 <p>
   <!-- 
@@ -7,15 +19,29 @@
   * "this" is the dropdown that user changed
   * onchange event will trigger the javascript function
    -->
-  <%= select_tag "dropdown_1", options_for_select( %w(hide show more values here can come)), :onchange => "showHideField();" %>
-  <%= check_box_tag "checkbox_1", "1", false, :onchange => "showHideField();" %><%= label_tag "Switch me ON to hide field" %>
+   <p>
+     <%= select_tag "dropdown_1", options_for_select( %w(hide show more values here can come)), :onchange => "showHideField();" %>
+   </p>
+   <p>
+     <%= label_tag "Enter numeric value" %>
+     <%= text_field_tag "text_field_1", "", :onblur => "showHideField();" %>
+   </p>
+
+   <div id="insert_here">
+    <!-- dynamically insert number of rows here -->
+   </div>
+
   <!-- 
   "display:none" hides the element when page is loaded
   change to "display:block" to show the element at page load
    -->
-  <div id="dynamic_div" style="display:none;">
-    <%= text_field_tag "dynamic_field" %>
-  </div>
+   <div id="static_div" style="display:none;">
+     <%= text_field_tag "static_field", "Always visible" %>
+   </div>
+   <div id="dynamic_div" style="display:none;">
+     <%= text_field_tag "the_field", "visible at 'show'", :class => "dynamic_field" %>
+   </div>
+
 </p>
 
 <!-- javascript function that will be called onchange -->
@@ -25,14 +51,22 @@
   function showHideField() {
     // 
     // DRY code. get handles to elements once, then use them in expressions
-    dropdown = $('dropdown_1')
-    checkbox = $('checkbox_1')
-    field = $('dynamic_div'); 
+    dropdown = $('dropdown_1');
+    text_field = $('text_field_1');
     // 
     // shorthand for the "if" conditional block in javascript
     // ( condition ? expression_for_true_result : expression_for_false_result )
     // show only when "show" selected + checkbox is checked
     // all other cases, do not show the field
-    ( ( dropdown.value == 'show' && !checkbox.checked ) ? field.show() : field.hide() )
+    if (text_field.value != "") {
+      $('insert_here').innerHTML = '';
+      _html = $('static_div').innerHTML
+      if (dropdown.value == 'show') { _html += $('dynamic_div').innerHTML}
+      for( num_row = 0; num_row < parseInt( text_field.value); num_row = num_row + 1) {
+        $('insert_here').innerHTML += ('<div>' +_html + '</div>');
+      }
+    } else {
+      $('insert_here').innerHTML = '<p>No rows</p>';
+    }
   }
 </script>
