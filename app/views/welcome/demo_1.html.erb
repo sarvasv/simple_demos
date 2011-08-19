@@ -1,0 +1,41 @@
+<h1>Solution 01</h1>
+<p>Dropdown to show or hide a field</p>
+
+<p>
+  <!-- 
+  * select tag with 'show' and 'hide' options
+  * "this" is the dropdown that user changed
+  * onchange event will trigger the javascript function
+   -->
+  <%= select_tag "demo_dropdown", options_for_select( ["hide", "show"]), :onchange => "showHideField( this);" %>
+  <!-- 
+  "display:none" hides the element when page is loaded
+  change this to "display:block" to show the element at page load
+   -->
+  <div id="dynamic_div" style="display:none;">
+    <%= text_field_tag "demo_field" %>
+  </div>
+</p>
+
+<!-- javascript function that will be called onchange -->
+<script type="text/javascript" charset="utf-8">
+  //
+  // function name. accepts one argument in "dropdown" variable. actual object reference passed by 'this'
+  function showHideField( dropdown) {
+    // 
+    // just some DRY code. otherwise we will have to repeat $('dynamic_div') instaed of "field"
+    field = $('dynamic_div'); 
+    // 
+    // shorthand for the "if" conditional block in javascript
+    // ( condition ? expression_for_true_result : expression_for_false_result )
+    ( ( dropdown.value == 'show') ? field.show() : field.hide() )
+    // 
+    // if conditional block below is exactly same as inline condition above
+    // 
+    // if( dropdown.value == 'show') {
+    //   field.show();
+    // } else {
+    //   field.hide();
+    // }
+  }
+</script>

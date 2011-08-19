@@ -1,0 +1,38 @@
+<h1>Solution 03</h1>
+<p>Dropdown to show or hide a field. Only when checkbox is NOT checked</p>
+
+<p>
+  <!-- 
+  * select tag with 'show' and 'hide' options
+  * "this" is the dropdown that user changed
+  * onchange event will trigger the javascript function
+   -->
+  <%= select_tag "dropdown_1", options_for_select( %w(hide show more values here can come)), :onchange => "showHideField();" %>
+  <%= check_box_tag "checkbox_1", "1", false, :onchange => "showHideField();" %><%= label_tag "Switch me ON to hide field" %>
+  <!-- 
+  "display:none" hides the element when page is loaded
+  change to "display:block" to show the element at page load
+   -->
+  <div id="dynamic_div" style="display:none;">
+    <%= text_field_tag "dynamic_field" %>
+  </div>
+</p>
+
+<!-- javascript function that will be called onchange -->
+<script type="text/javascript" charset="utf-8">
+  //
+  // objects are referenced through their IDs
+  function showHideField() {
+    // 
+    // DRY code. get handles to elements once, then use them in expressions
+    dropdown = $('dropdown_1')
+    checkbox = $('checkbox_1')
+    field = $('dynamic_div'); 
+    // 
+    // shorthand for the "if" conditional block in javascript
+    // ( condition ? expression_for_true_result : expression_for_false_result )
+    // show only when "show" selected + checkbox is checked
+    // all other cases, do not show the field
+    ( ( dropdown.value == 'show' && !checkbox.checked ) ? field.show() : field.hide() )
+  }
+</script>

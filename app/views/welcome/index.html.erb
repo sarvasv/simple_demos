@@ -1,0 +1,8 @@
+<h1 id="demonstrations">Demonstrations</h1>
+<p>
+  <ul>
+    <% @demos.each do |num| %>
+      <li><%= link_to "Demo #{num}", :controller => "welcome", :action => "demo_#{num}" %></li>
+    <% end %>
+  </ul>
+</p>
