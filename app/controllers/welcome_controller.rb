@@ -3,10 +3,11 @@ class WelcomeController < ApplicationController
   #  Fri Aug 19 16:45:33 IST 2011, ramonrails
   #   * just quick way around to define a constant here
   #   * we need this constant in this controller anyways
-  DEMOS = (1..4)
+  DEMOS = (1..5)
   DEMO_NAMES = {
     3 => "Dynamically add fields in form",
-    4 => "Sortable columns"
+    4 => "Sortable columns",
+    5 => "Other price saved instead of pre-defined values"
   }
   
   def index

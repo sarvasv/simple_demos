@@ -16,10 +16,34 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= select_tag "dropdown_1", options_for_select( (1..5).collect(&:to_s) + ['Other']), :onchange => "other_price_action();" %>
+    Please select "Other" to view other_price field
     <%= f.label :price %><br />
-    <%= f.text_field :price %>
+    <%= f.text_field :price %> &lt;- This price field has no meaning, when "Other" is selected
+    <div id="other_price">
+      <%= label_tag "Other price" %>
+      <%= text_field_tag "other_price" %> <em>This value gets saved to above "Price" field</em>
+    </div>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+  dropdown = $('dropdown_1');
+  price = $('product_price');
+  other_price = $('other_price');
+  
+  window.onload =  other_price.hide();
+  
+  function other_price_action() {
+    if ( dropdown.value == 'Other') {
+      other_price.show();
+      price.hide();
+    } else {
+      price.show();
+      price.value = dropdown.value;
+    }
+  }
+</script>

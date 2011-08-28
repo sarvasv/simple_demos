@@ -43,8 +43,9 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.xml
   def create
+    apply_other_price_if_required
     @product = Product.new(params[:product])
-
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to(@product, :notice => 'Product was successfully created.') }
@@ -60,6 +61,7 @@ class ProductsController < ApplicationController
   # PUT /products/1.xml
   def update
     @product = Product.find(params[:id])
+    apply_other_price_if_required
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
@@ -85,6 +87,13 @@ class ProductsController < ApplicationController
   end
 
   private # invisible actions
+  
+  def apply_other_price_if_required
+    #   * we need to apply other_price
+    if params[:dropdown_1] == 'Other'
+      params[:product][:price] = params[:other_price]
+    end
+  end
   
   def sort_column
     (Product.column_names & [params[ :sort]]).blank? ? "name" : params[ :sort]
