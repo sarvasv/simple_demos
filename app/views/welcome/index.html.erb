@@ -5,7 +5,7 @@
     #  Fri Aug 19 23:48:15 IST 2011, ramonrails
     #   * dynamically create links for demonstration pages we have -->
     <% @demos.each do |num| %>
-      <li><%= link_to "Demo #{num}", :controller => "welcome", :action => "demo_#{num}" %></li>
+      <li><%= link_to "Demo #{num}", :controller => "welcome", :action => "demo_#{num}" %>, <span class="demo_name"><%= @demo_names[ num] %></span></li>
     <% end %>
   </ul>
 </p>
