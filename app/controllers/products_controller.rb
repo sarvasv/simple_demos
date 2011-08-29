@@ -5,7 +5,16 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.xml
   def index
-    @products = Product.all( :order => "#{sort_column} #{sort_direction}")
+    @products = Product.find_by_sql( "SELECT * FROM products ORDER BY #{sort_column} #{sort_direction}")
+    # 
+    #  Mon Aug 29 12:15:52 IST 2011, ramonrails
+    #   * direct SQL query without a model
+    #   * in this case, @product.name is not going to work. the code should fetch data from result array using field index
+    #
+    #   ActiveRecord::Base.connection.select_rows( "SELECT * FROM products").first
+    #   => [1, "one", "10", "2011-08-19 19:45:42.499558", "2011-08-19 19:45:42.499558"]
+    #
+    # @products = ActiveRecord::Base.connection.select_rows( "SELECT * FROM products ORDER BY #{sort_column} #{sort_direction}").first
 
     respond_to do |format|
       format.html # index.html.erb
