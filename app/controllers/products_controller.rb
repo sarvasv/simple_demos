@@ -4,8 +4,18 @@ class ProductsController < ApplicationController
    
   # GET /products
   # GET /products.xml
+  # GET /search
   def index
-    @products = Product.find_by_sql( "SELECT * FROM products ORDER BY #{sort_column} #{sort_direction}")
+    #   * when we have a search form submitting to this action, use its params
+    #   * otherwise accommodate the standard header clicks
+    #   * to re-use the existing code and keep DRY, we kept the form element names same. keeping the names same is not mandatory
+    sql_command = [ 
+      "SELECT * FROM products", # we need this in both cases
+      ( params[:q] ? "WHERE name LIKE '%#{params[:q]}%'" : ''), # this is optional string evaluated only when attribute given
+      "ORDER BY #{sort_column} #{sort_direction}" # required in both cases
+      ].join(' ')
+    #   * fire this custom SQL which includes the sort algorithm, and search conditions (of form was submitted instead of clicking header)
+    @products = Product.find_by_sql( sql_command)
     # 
     #  Mon Aug 29 12:15:52 IST 2011, ramonrails
     #   * direct SQL query without a model
@@ -21,7 +31,7 @@ class ProductsController < ApplicationController
       format.xml  { render :xml => @products }
     end
   end
-
+  
   # GET /products/1
   # GET /products/1.xml
   def show

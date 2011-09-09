@@ -1,7 +1,8 @@
 VanditaSamples::Application.routes.draw do
   resources :products
-
+  match "search" => 'products#index'
   get "welcome/index"
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

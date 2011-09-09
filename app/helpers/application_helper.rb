@@ -7,6 +7,6 @@ module ApplicationHelper
     direction = (column == sort_column) && (sort_direction == "asc") ? "desc" : "asc"
 
     link_to( display_text, { :sort => column, :direction => direction}, {:class => css}) + 
-    " #{ (direction == 'asc' ? ( column == sort_column ? 'v' : '') : '^')}"
+    content_tag( :span, " #{ (direction == 'asc' ? ( column == sort_column ? 'v' : '') : '^')}", :class => "direction")
   end
 end

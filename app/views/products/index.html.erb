@@ -1,5 +1,24 @@
 <h1>Listing products</h1>
 
+<% form_tag( "/search", :method => :get, :class => "form") do %>
+  <fieldset id="search">
+    <legend>Search...</legend>
+    <%= label_tag "Name contains" %>
+    <%= text_field_tag "q" %>
+    
+    <%= label_tag "sort column" %>
+    <%= select_tag "sort", options_for_select( %w(name price created_at)) %>
+    
+    <%= label_tag "sort direction" %>
+    <%= select_tag "direction", options_for_select( %w(asc desc)) %>
+
+    <%= submit_tag "Search & sort at the same time", :class => "search" %>
+  </fieldset>
+  <p class="tiny">Search and sort work together with the form. Clicking the headers forgets the search parameters and uses the header action to decide sort and direction</p>
+<% end -%>
+
+<hr />
+
 <table>
   <tr>
     <th><%= sortable_column "name" %></th>
